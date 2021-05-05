@@ -12,9 +12,9 @@ namespace SimpleFeedReader.Pages
 {
     public class IndexModel : PageModel
     {
+        private readonly IConfiguration _configuration;
         private readonly NewsService _newsService;
-        private readonly IConfiguration _configuration;  
-   
+
         public IndexModel(NewsService newsService, IConfiguration configuration)
         {
             _newsService = newsService;
@@ -31,7 +31,6 @@ namespace SimpleFeedReader.Pages
             string feedUrl = Request.Query["feedurl"];
 
             if (!string.IsNullOrEmpty(feedUrl))
-            {
                 try
                 {
                     NewsItems = await _newsService.GetNews(feedUrl);
@@ -39,31 +38,29 @@ namespace SimpleFeedReader.Pages
                 catch (UriFormatException)
                 {
                     ErrorText = "There was a problem parsing the URL.";
-                    return;
                 }
                 catch (WebException ex) when (ex.Status == WebExceptionStatus.NameResolutionFailure)
                 {
                     ErrorText = "Unknown host name.";
-                    return;
                 }
                 catch (WebException ex) when (ex.Status == WebExceptionStatus.ProtocolError)
                 {
                     ErrorText = "Syndication feed not found.";
-                    return;
                 }
                 catch (AggregateException ae)
                 {
-                    ae.Handle((x) =>
+                    ae.Handle(x =>
                     {
                         if (x is XmlException)
                         {
-                            ErrorText = "There was a problem parsing the feed. Are you sure that URL is a syndication feed?";
+                            ErrorText =
+                                "There was a problem parsing the feed. Are you sure that URL is a syndication feed?";
                             return true;
                         }
+
                         return false;
                     });
                 }
-            }
         }
     }
 }

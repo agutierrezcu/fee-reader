@@ -4,22 +4,22 @@
     ViewData["Title"] = "Home page";
 }
 <h2>@ViewData["Header"]</h2>
-<hr />
+<hr/>
 <div class="row">
     <div>
         <form method="get">
             <div class="form-group">
                 <label>
                     Enter a feed URL:
-                    <input name="FeedUrl" id="FeedUrl" class="form-control" value="@Request.Query["feedurl"]" />
+                    <input name="FeedUrl" id="FeedUrl" class="form-control" value="@Request.Query["feedurl"]"/>
                 </label>
             </div>
             <div class="form-group">
-                <input type="submit" value="Retrieve Feed" class="btn btn-default" />
+                <input type="submit" value="Retrieve Feed" class="btn btn-default"/>
             </div>
         </form>
     </div>
-    
+
     @if (!string.IsNullOrEmpty(Model.ErrorText))
     {
         <div>
@@ -29,14 +29,14 @@
 
     @if (Model.NewsItems?.Count > 0)
     {
-    <table class="table">
-        <thead>
+        <table class="table">
+            <thead>
             <tr>
                 <th>Title</th>
                 <th>Published</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             @foreach (var item in Model.NewsItems)
             {
                 <tr>
@@ -48,7 +48,7 @@
                     </td>
                 </tr>
             }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
     }
 </div>

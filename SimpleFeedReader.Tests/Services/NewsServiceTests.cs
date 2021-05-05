@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using SimpleFeedReader.Services;
-using SimpleFeedReader.ViewModels;
 using Xunit;
 
 namespace SimpleFeedReader.Tests.Services
@@ -17,7 +15,7 @@ namespace SimpleFeedReader.Tests.Services
         {
             var mockMapper = new MapperConfiguration(cfg =>
                 cfg.AddProfile(new NewsStoryProfile()));
-            IMapper mapper = mockMapper.CreateMapper();
+            var mapper = mockMapper.CreateMapper();
 
             _newsService = new NewsService(mapper);
         }
@@ -29,13 +27,13 @@ namespace SimpleFeedReader.Tests.Services
             var feedUrl = "https://azure.microsoft.com/en-us/blog/feed/";
 
             // Act
-            List<NewsStoryViewModel> result =
+            var result =
                 await _newsService.GetNews(feedUrl);
 
             // Assert
             Assert.True(result.Count > 0);
         }
-       
+
         [Fact]
         public void Throws_UriFormatException_Given_Malformed_Uri()
         {

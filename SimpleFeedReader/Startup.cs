@@ -27,22 +27,15 @@ namespace SimpleFeedReader
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
             else
-            {
                 app.UseExceptionHandler("/Error");
-            }
 
             app.UseStaticFiles();
 
             app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapRazorPages();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
         }
     }
 }
